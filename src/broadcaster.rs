@@ -19,11 +19,13 @@ use crate::relayer_execute_message::RelayerExecuteMessage;
 use crate::ton_constants::REFUND_DUST;
 use crate::ton_wallet_high_load_v3::TonWalletHighLoadV3;
 use crate::wallet_manager::WalletManager;
+use async_trait::async_trait;
 use base64::engine::general_purpose;
 use base64::Engine;
 use num_bigint::BigUint;
 use relayer_base::error::BroadcasterError::RPCCallFailed;
 use relayer_base::gmp_api::gmp_types::{ExecuteTaskFields, RefundTaskFields};
+use relayer_base::utils::ThreadSafe;
 use relayer_base::{
     error::BroadcasterError,
     includer::{BroadcastResult, Broadcaster},
@@ -37,6 +39,7 @@ use tracing::{debug, error, info, warn};
 
 const HIGHLOAD_WALLET_ALREADY_EXECUTED: &str = "THROWIF 36";
 
+#[derive(Clone)]
 pub struct TONBroadcaster<GE> {
     wallet_manager: Arc<WalletManager>,
     query_id_wrapper: Arc<dyn HighLoadQueryIdWrapper>,
@@ -47,7 +50,10 @@ pub struct TONBroadcaster<GE> {
     gas_estimator: GE,
 }
 
-impl<GE: GasEstimator> TONBroadcaster<GE> {
+impl<GE> TONBroadcaster<GE>
+where
+    GE: GasEstimator + ThreadSafe,
+{
     pub fn new(
         wallet_manager: Arc<WalletManager>,
         client: Arc<dyn RestClient>,
@@ -68,6 +74,7 @@ impl<GE: GasEstimator> TONBroadcaster<GE> {
         })
     }
 
+    #[tracing::instrument(skip(self))]
     async fn send_to_chain(
         &self,
         wallet: &TonWalletHighLoadV3,
@@ -137,11 +144,17 @@ impl<GE: GasEstimator> TONBroadcaster<GE> {
     }
 }
 
+#[derive(Clone)]
 pub struct TONTransaction;
 
-impl<GE: GasEstimator> Broadcaster for TONBroadcaster<GE> {
+#[async_trait]
+impl<GE> Broadcaster for TONBroadcaster<GE>
+where
+    GE: GasEstimator + ThreadSafe,
+{
     type Transaction = TONTransaction;
 
+    #[tracing::instrument(skip(self), fields(message_id))]
     async fn broadcast_prover_message(
         &self,
         tx_blob: String,
@@ -156,6 +169,8 @@ impl<GE: GasEstimator> Broadcaster for TONBroadcaster<GE> {
                 .ok_or(BroadcasterError::GenericError(
                     "Missing approved message".to_string(),
                 ))?;
+
+        tracing::Span::current().record("message_id", &message.message_id);
 
         let approve_message_value: BigUint = BigUint::from(
             self.gas_estimator
@@ -201,10 +216,12 @@ impl<GE: GasEstimator> Broadcaster for TONBroadcaster<GE> {
         result
     }
 
+    #[tracing::instrument(skip(self))]
     async fn broadcast_refund(&self, _data: String) -> Result<String, BroadcasterError> {
         Ok(String::new())
     }
 
+    #[tracing::instrument(skip(self), fields(message_id))]
     async fn broadcast_execute_message(
         &self,
         message: ExecuteTaskFields,
@@ -226,6 +243,8 @@ impl<GE: GasEstimator> Broadcaster for TONBroadcaster<GE> {
 
         let message_id = message.message.message_id;
         let source_chain = message.message.source_chain;
+
+        tracing::Span::current().record("message_id", &message_id);
 
         let available_gas = u64::from_str(&message.available_gas_balance.amount).unwrap_or(0);
         let required_gas = self.gas_estimator.execute_estimate(payload_len).await;
@@ -303,6 +322,7 @@ impl<GE: GasEstimator> Broadcaster for TONBroadcaster<GE> {
         result
     }
 
+    #[tracing::instrument(skip(self), fields(message_id))]
     async fn broadcast_refund_message(
         &self,
         refund_task: RefundTaskFields,
@@ -318,6 +338,9 @@ impl<GE: GasEstimator> Broadcaster for TONBroadcaster<GE> {
             .message_id
             .strip_prefix("0x")
             .unwrap_or(&refund_task.message.message_id);
+
+        tracing::Span::current().record("message_id", &refund_task.message.message_id);
+
         let tx_hash = TonHash::from_hex(cleaned_hash)
             .map_err(|e| BroadcasterError::GenericError(e.to_string()))?;
 
@@ -449,12 +472,10 @@ mod tests {
         .unwrap();
 
         let mut gas_estimator = MockGasEstimator::new();
-        gas_estimator
-            .expect_approve_send()
-            .returning(|_| Box::pin(async { 42u64 }));
+        gas_estimator.expect_approve_send().returning(|_| 42u64);
         gas_estimator
             .expect_highload_wallet_send()
-            .returning(|_| Box::pin(async { 1024u64 }));
+            .returning(|_| 1024u64);
 
         let broadcaster = TONBroadcaster {
             wallet_manager: Arc::new(wallet_manager),
@@ -563,15 +584,11 @@ mod tests {
         .unwrap();
 
         let mut gas_estimator = MockGasEstimator::new();
-        gas_estimator
-            .expect_execute_estimate()
-            .returning(|_| Box::pin(async { 42u64 }));
-        gas_estimator
-            .expect_execute_send()
-            .returning(|_| Box::pin(async { 42u64 }));
+        gas_estimator.expect_execute_estimate().returning(|_| 42u64);
+        gas_estimator.expect_execute_send().returning(|_| 42u64);
         gas_estimator
             .expect_highload_wallet_send()
-            .returning(|_| Box::pin(async { 1024u64 }));
+            .returning(|_| 1024u64);
 
         let broadcaster = TONBroadcaster {
             wallet_manager: Arc::new(wallet_manager),
@@ -638,12 +655,10 @@ mod tests {
         .unwrap();
 
         let mut gas_estimator = MockGasEstimator::new();
-        gas_estimator
-            .expect_execute_estimate()
-            .returning(|_| Box::pin(async { 42u64 }));
+        gas_estimator.expect_execute_estimate().returning(|_| 42u64);
         gas_estimator
             .expect_highload_wallet_send()
-            .returning(|_| Box::pin(async { 1024u64 }));
+            .returning(|_| 1024u64);
 
         let broadcaster = TONBroadcaster {
             wallet_manager: Arc::new(wallet_manager),
@@ -709,10 +724,10 @@ mod tests {
         let mut gas_estimator = MockGasEstimator::new();
         gas_estimator
             .expect_native_gas_refund_estimate()
-            .returning(|| Box::pin(async { 42u64 }));
+            .returning(|| 42u64);
         gas_estimator
             .expect_highload_wallet_send()
-            .returning(|_| Box::pin(async { 1024u64 }));
+            .returning(|_| 1024u64);
 
         let broadcaster = TONBroadcaster {
             wallet_manager: Arc::new(wallet_manager),
@@ -752,10 +767,10 @@ mod tests {
         let mut gas_estimator = MockGasEstimator::new();
         gas_estimator
             .expect_native_gas_refund_estimate()
-            .returning(|| Box::pin(async { 1000u64 }));
+            .returning(|| 1000u64);
         gas_estimator
             .expect_highload_wallet_send()
-            .returning(|_| Box::pin(async { 1000u64 }));
+            .returning(|_| 1000u64);
 
         let broadcaster = TONBroadcaster {
             wallet_manager: Arc::new(wallet_manager),

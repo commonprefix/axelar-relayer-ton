@@ -24,8 +24,8 @@ pub(crate) use crate::types::{
     AccountState, AccountStatesResponse, Trace, TracesResponse, TracesResponseRest,
 };
 use async_trait::async_trait;
-use relayer_base::error::ClientError;
-use relayer_base::error::ClientError::{BadRequest, BadResponse, ConnectionFailed};
+use relayer_core::error::ClientError;
+use relayer_core::error::ClientError::{BadRequest, BadResponse, ConnectionFailed};
 use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
 use reqwest_retry::{policies::ExponentialBackoff, RetryTransientMiddleware};
 use serde::Deserialize;

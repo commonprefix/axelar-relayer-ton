@@ -4,43 +4,46 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-relayer-base = { workspace = true }
-dotenv = { workspace = true }
-tokio = { workspace = true }
-anyhow = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-error-stack = { workspace = true }
-redis = { workspace = true, features = ["tokio-rustls-comp"] }
-hex = { workspace = true }
-tracing = { workspace = true }
-thiserror = { workspace = true }
-base64 = { workspace = true }
-sqlx = { workspace = true }
-chrono = { workspace = true }
-reqwest = { workspace = true }
-reqwest-retry = { workspace = true }
-reqwest-middleware = { workspace = true, features = ["json"] }
-tonlib-core = { workspace = true }
-tokio-util = { workspace = true }
-testcontainers = { workspace = true }
-testcontainers-modules = { workspace = true, features = ["postgres"] }
-opentelemetry = { workspace = true }
+relayer-core = { git = "https://github.com/commonprefix/axelar-relayer-core", branch = "main" }
+dotenv = "0.15.0"
+tokio = { version = "1.41.1", features = ["full", "test-util"] }
+anyhow = "1.0.93"
+serde = "1.0.215"
+serde_json = "1.0.133"
+error-stack = "0.5.0"
+redis = { version = "0.32.4", features = ["tokio-rustls-comp"] }
+hex = "0.4.3"
+tracing = "0.1.40"
+thiserror = "2.0.3"
+base64 = "0.22.1"
+sqlx = { version = "0.8.1", features = [
+    "runtime-tokio-rustls",
+    "postgres",
+    "chrono",
+] }
+chrono = { version = "0.4.40", features = ["serde"] }
+reqwest = { version = "0.12.9", features = ["native-tls"] }
+reqwest-retry = "0.7.0"
+reqwest-middleware = { version = "0.4.2", features = ["json"] }
+tonlib-core = "0.26.0"
+tokio-util = "0.7.12"
+opentelemetry = { version = "0.29.1", features = ["trace"] }
 serde_with = "3.14.0"
-
 nacl = "0.5.3"
 num-bigint = "0.4.6"
 async-trait = "0.1.88"
 tiny-keccak = { version = "2.0.2", features = ["keccak"] }
 primitive-types = "0.13.1"
-rust_decimal = { workspace = true }
+rust_decimal = "1.37.1"
 
 [dev-dependencies]
-relayer-base = { workspace = true, features = ["mocks"] }
-mockall = { workspace = true }
-testcontainers = { workspace = true }
-testcontainers-modules = { workspace = true, features = ["postgres"] }
-httpmock = { workspace = true }
+relayer-core = { git = "https://github.com/commonprefix/axelar-relayer-core", branch = "main", features = [
+    "mocks",
+] }
+mockall = "0.13.1"
+testcontainers = "0.24.0"
+testcontainers-modules = { version = "0.12.1", features = ["postgres"] }
+httpmock = "0.7.0"
 tracing-test = "0.2.5"
 
 [[bin]]
@@ -59,5 +62,10 @@ path = "src/bin/ton_subscriber.rs"
 name = "ton_ingestor"
 path = "src/bin/ton_ingestor.rs"
 
-[lints]
-workspace = true
+[lints.clippy]
+uninlined_format_args = "allow"
+unwrap_used = "warn"
+indexing_slicing = "warn"
+clone_on_ref_ptr = "warn"
+redundant_clone = "warn"
+unnecessary_box_returns = "warn"

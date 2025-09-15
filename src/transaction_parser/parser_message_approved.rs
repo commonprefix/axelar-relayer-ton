@@ -6,7 +6,7 @@ use crate::transaction_parser::message_matching_key::MessageMatchingKey;
 use crate::transaction_parser::parser::Parser;
 use crate::types::Transaction;
 use async_trait::async_trait;
-use relayer_base::gmp_api::gmp_types::{
+use relayer_core::gmp_api::gmp_types::{
     Amount, CommonEventFields, Event, EventMetadata, GatewayV2Message, MessageApprovedEventMetadata,
 };
 use tonlib_core::TonAddress;

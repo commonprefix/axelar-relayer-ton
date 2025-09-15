@@ -1,4 +1,4 @@
-use relayer_base::models::Model;
+use relayer_core::models::Model;
 use serde::{Deserialize, Serialize};
 use sqlx::types::Json;
 use sqlx::PgPool;
@@ -188,7 +188,7 @@ mod tests {
         AtomicUpsert, EventSummary, PgTONTraceModel, TONTrace, UpdateEvents,
     };
     use crate::test_utils::fixtures::fixture_traces;
-    use relayer_base::models::Model;
+    use relayer_core::models::Model;
     use sqlx::types::Json;
     use testcontainers::runners::AsyncRunner;
     use testcontainers_modules::postgres;

@@ -17,7 +17,7 @@ use std::sync::Arc;
 use ton::lock_manager::RedisLockManager;
 use ton::wallet_manager::WalletManager;
 use tracing::error;
-use relayer_base::redis::connection_manager;
+use relayer_core::redis::connection_manager;
 
 #[tokio::main]
 async fn main() {

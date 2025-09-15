@@ -1,9 +1,9 @@
 use dotenv::dotenv;
-use relayer_base::config::config_from_yaml;
-use relayer_base::logging::setup_logging;
-use relayer_base::redis::connection_manager;
-use relayer_base::utils::setup_heartbeat;
-use relayer_base::{database::PostgresDB, gmp_api, payload_cache::PayloadCache, queue::Queue};
+use relayer_core::config::config_from_yaml;
+use relayer_core::logging::setup_logging;
+use relayer_core::redis::connection_manager;
+use relayer_core::utils::setup_heartbeat;
+use relayer_core::{database::PostgresDB, gmp_api, payload_cache::PayloadCache, queue::Queue};
 use sqlx::PgPool;
 use std::sync::Arc;
 use tokio::signal::unix::{signal, SignalKind};

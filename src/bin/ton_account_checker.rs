@@ -1,9 +1,9 @@
 use dotenv::dotenv;
-use relayer_base::config::config_from_yaml;
-use relayer_base::error::SubscriberError;
-use relayer_base::logging::setup_logging;
-use relayer_base::redis::connection_manager;
-use relayer_base::utils::setup_heartbeat;
+use relayer_core::config::config_from_yaml;
+use relayer_core::error::SubscriberError;
+use relayer_core::logging::setup_logging;
+use relayer_core::redis::connection_manager;
+use relayer_core::utils::setup_heartbeat;
 use std::str::FromStr;
 use tokio::signal::unix::{signal, SignalKind};
 use ton::check_accounts::check_accounts;

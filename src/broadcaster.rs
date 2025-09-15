@@ -23,10 +23,10 @@ use async_trait::async_trait;
 use base64::engine::general_purpose;
 use base64::Engine;
 use num_bigint::BigUint;
-use relayer_base::error::BroadcasterError::RPCCallFailed;
-use relayer_base::gmp_api::gmp_types::{ExecuteTaskFields, RefundTaskFields};
-use relayer_base::utils::ThreadSafe;
-use relayer_base::{
+use relayer_core::error::BroadcasterError::RPCCallFailed;
+use relayer_core::gmp_api::gmp_types::{ExecuteTaskFields, RefundTaskFields};
+use relayer_core::utils::ThreadSafe;
+use relayer_core::{
     error::BroadcasterError,
     includer::{BroadcastResult, Broadcaster},
 };
@@ -422,11 +422,11 @@ mod tests {
     use crate::wallet_manager::wallet_manager_tests::load_wallets;
     use base64::prelude::BASE64_STANDARD;
     use base64::Engine;
-    use relayer_base::error::BroadcasterError;
-    use relayer_base::gmp_api::gmp_types::{
+    use relayer_core::error::BroadcasterError;
+    use relayer_core::gmp_api::gmp_types::{
         Amount, ExecuteTaskFields, GatewayV2Message, RefundTaskFields,
     };
-    use relayer_base::includer::{BroadcastResult, Broadcaster};
+    use relayer_core::includer::{BroadcastResult, Broadcaster};
     use std::str::FromStr;
     use std::sync::Arc;
     use tonlib_core::cell::Cell;
@@ -795,7 +795,7 @@ mod tests {
         use base64::Engine;
         use hex;
         use num_bigint::BigUint;
-        use relayer_base::error::ClientError;
+        use relayer_core::error::ClientError;
         use std::sync::atomic::{AtomicU32, Ordering};
         use std::sync::{Arc, Mutex};
 

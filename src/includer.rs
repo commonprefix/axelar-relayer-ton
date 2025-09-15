@@ -6,8 +6,8 @@ use crate::high_load_query_id_db_wrapper::HighLoadQueryIdDbWrapper;
 use crate::lock_manager::RedisLockManager;
 use crate::wallet_manager::WalletManager;
 use redis::aio::ConnectionManager;
-use relayer_base::utils::ThreadSafe;
-use relayer_base::{
+use relayer_core::utils::ThreadSafe;
+use relayer_core::{
     database::Database, error::BroadcasterError, gmp_api::GmpApiTrait, includer::Includer,
     includer_worker::IncluderWorker, payload_cache::PayloadCache, queue::Queue,
 };

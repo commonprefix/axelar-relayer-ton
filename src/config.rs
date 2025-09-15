@@ -1,4 +1,4 @@
-use relayer_base::config::Config;
+use relayer_core::config::Config;
 use serde::Deserialize;
 
 #[derive(Debug, Clone, Deserialize, Default)]

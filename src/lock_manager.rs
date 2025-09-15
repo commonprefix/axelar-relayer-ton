@@ -6,7 +6,7 @@ Lock Manager with Redis implementation.
 ```rust,no_run
 #[tokio::main]
 async fn main() {
-    use relayer_base::redis::connection_manager;
+    use relayer_core::redis::connection_manager;
     use ton::lock_manager::{LockManager, RedisLockManager};
 
     let client = redis::Client::open("redis://127.0.0.1/").unwrap();
@@ -87,7 +87,7 @@ impl LockManager for RedisLockManager {
 mod tests {
     use crate::lock_manager::{LockManager, RedisLockManager};
     use redis::Client;
-    use relayer_base::redis::connection_manager;
+    use relayer_core::redis::connection_manager;
     use std::time::Duration;
     use testcontainers::{
         core::{IntoContainerPort, WaitFor},

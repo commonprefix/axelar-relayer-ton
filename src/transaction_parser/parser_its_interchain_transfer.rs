@@ -5,9 +5,9 @@ use crate::ton_constants::OP_INTERCHAIN_TRANSFER_LOG;
 use crate::transaction_parser::common::is_log_emitted;
 use crate::transaction_parser::message_matching_key::MessageMatchingKey;
 use crate::transaction_parser::parser::Parser;
-use async_trait::async_trait;
-use relayer_base::gmp_api::gmp_types::{Amount, CommonEventFields, Event, EventMetadata};
 use crate::types::Transaction;
+use async_trait::async_trait;
+use relayer_core::gmp_api::gmp_types::{Amount, CommonEventFields, Event, EventMetadata};
 use tonlib_core::TonAddress;
 
 pub struct ParserITSInterchainTransfer {

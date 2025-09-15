@@ -21,9 +21,9 @@ use async_trait::async_trait;
 use num_bigint::BigUint;
 use opentelemetry::trace::{Span, Tracer};
 use opentelemetry::{global, Context, KeyValue};
-use relayer_base::gmp_api::gmp_types::Event;
-use relayer_base::price_view::PriceViewTrait;
-use relayer_base::utils::ThreadSafe;
+use relayer_core::gmp_api::gmp_types::Event;
+use relayer_core::price_view::PriceViewTrait;
+use relayer_core::utils::ThreadSafe;
 use std::collections::HashMap;
 use std::str::FromStr;
 use tonlib_core::TonAddress;
@@ -403,8 +403,8 @@ mod tests {
     use super::*;
     use crate::test_utils::fixtures::fixture_traces;
     use mockall::predicate::eq;
-    use relayer_base::database::PostgresDB;
-    use relayer_base::price_view::MockPriceView;
+    use relayer_core::database::PostgresDB;
+    use relayer_core::price_view::MockPriceView;
     use rust_decimal::Decimal;
 
     #[tokio::test]

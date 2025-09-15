@@ -5,7 +5,7 @@ use crate::transaction_parser::common::is_log_emmitted_in_opcode;
 use crate::transaction_parser::message_matching_key::MessageMatchingKey;
 use crate::transaction_parser::parser::Parser;
 use async_trait::async_trait;
-use relayer_base::gmp_api::gmp_types::{Amount, CommonEventFields, Event};
+use relayer_core::gmp_api::gmp_types::{Amount, CommonEventFields, Event};
 use crate::types::Transaction;
 use tonlib_core::TonAddress;
 

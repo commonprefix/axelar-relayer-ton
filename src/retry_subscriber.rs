@@ -7,8 +7,8 @@ Retries any incomplete traces
 use super::client::RestClient;
 use crate::ton_trace::{AtomicUpsert, Retriable, TONTrace};
 use crate::types::Trace;
-use relayer_base::error::SubscriberError;
-use relayer_base::subscriber::{ChainTransaction, TransactionPoller};
+use relayer_core::error::SubscriberError;
+use relayer_core::subscriber::{ChainTransaction, TransactionPoller};
 use std::collections::HashMap;
 use std::time::Duration;
 use tokio::time::sleep;
@@ -35,8 +35,11 @@ impl<TM: Retriable + AtomicUpsert, CL: RestClient> TransactionPoller
     type Transaction = Trace;
     type Account = TonAddress;
 
-    fn make_queue_item(&mut self, tx: Self::Transaction) -> ChainTransaction {
-        serde_json::to_string(&tx).unwrap()
+    fn make_queue_item(
+        &mut self,
+        tx: Self::Transaction,
+    ) -> Result<ChainTransaction, anyhow::Error> {
+        Ok(serde_json::to_string(&tx)?)
     }
 
     fn transaction_id(&self, tx: &Self::Transaction) -> Option<String> {

@@ -33,8 +33,8 @@ use ton::config::WalletConfig;
 use std::sync::Arc;
 use ton::lock_manager::RedisLockManager;
 use ton::wallet_manager::WalletManager;
-use relayer_base::database::PostgresDB;
-use relayer_base::redis::connection_manager;
+use relayer_core::database::PostgresDB;
+use relayer_core::redis::connection_manager;
 use ton::high_load_query_id_db_wrapper::HighLoadQueryIdDbWrapper;
 use ton::high_load_query_id_db_wrapper::HighLoadQueryIdWrapper;
 use sqlx::PgPool;
@@ -196,7 +196,7 @@ mod tests {
     async fn test_next() {
         let container = postgres::Postgres::default()
             .with_init_sql(
-                include_str!("../../migrations/0010_ton_wallet_query_id.sql")
+                include_str!("../migrations/0005_ton_wallet_query_id.sql")
                     .to_string()
                     .into_bytes(),
             )

@@ -1,10 +1,10 @@
 use dotenv::dotenv;
-use relayer_base::config::config_from_yaml;
-use relayer_base::gmp_api::gmp_types::TaskKind;
-use relayer_base::logging::setup_logging;
-use relayer_base::logging_ctx_cache::RedisLoggingCtxCache;
-use relayer_base::redis::connection_manager;
-use relayer_base::{
+use relayer_core::config::config_from_yaml;
+use relayer_core::gmp_api::gmp_types::TaskKind;
+use relayer_core::logging::setup_logging;
+use relayer_core::logging_ctx_cache::RedisLoggingCtxCache;
+use relayer_core::redis::connection_manager;
+use relayer_core::{
     database::PostgresDB, distributor::Distributor, gmp_api, queue::Queue, utils::setup_heartbeat,
 };
 use sqlx::PgPool;

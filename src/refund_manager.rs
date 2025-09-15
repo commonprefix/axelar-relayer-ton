@@ -1,6 +1,6 @@
 use async_trait::async_trait;
-use relayer_base::utils::ThreadSafe;
-use relayer_base::{
+use relayer_core::utils::ThreadSafe;
+use relayer_core::{
     error::RefundManagerError, gmp_api::gmp_types::RefundTask, includer::RefundManager,
 };
 

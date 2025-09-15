@@ -8,7 +8,7 @@ use crate::types::Transaction;
 use async_trait::async_trait;
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
-use relayer_base::gmp_api::gmp_types::{CommonEventFields, Event, EventMetadata, GatewayV2Message};
+use relayer_core::gmp_api::gmp_types::{CommonEventFields, Event, EventMetadata, GatewayV2Message};
 use std::collections::HashMap;
 use tonlib_core::TonAddress;
 

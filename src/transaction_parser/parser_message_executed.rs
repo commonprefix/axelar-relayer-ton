@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use relayer_base::gmp_api::gmp_types::{
+use relayer_core::gmp_api::gmp_types::{
     Amount, CommonEventFields, Event, EventMetadata, MessageExecutedEventMetadata,
     MessageExecutionStatus,
 };

@@ -5,14 +5,14 @@ use async_trait::async_trait;
 use opentelemetry::global::ObjectSafeSpan;
 use opentelemetry::trace::Tracer;
 use opentelemetry::{global, Context, KeyValue};
-use relayer_base::error::IngestorError;
-use relayer_base::gmp_api::gmp_types::{
+use relayer_core::error::IngestorError;
+use relayer_core::gmp_api::gmp_types::{
     ConstructProofTask, Event, ReactToWasmEventTask, RetryTask, VerifyTask,
 };
-use relayer_base::ingestor::IngestorTrait;
-use relayer_base::models::gmp_events::EventModel;
-use relayer_base::subscriber::ChainTransaction;
-use relayer_base::utils::ThreadSafe;
+use relayer_core::ingestor::IngestorTrait;
+use relayer_core::models::gmp_events::EventModel;
+use relayer_core::subscriber::ChainTransaction;
+use relayer_core::utils::ThreadSafe;
 use tracing::{info, warn};
 
 #[derive(Clone)]
@@ -130,15 +130,15 @@ mod tests {
     use crate::models::ton_trace::MockUpdateEvents;
     use crate::parser::MockTraceParserTrait;
     use crate::types::Trace;
-    use relayer_base::error::IngestorError;
-    use relayer_base::gmp_api::gmp_types::{
+    use relayer_core::error::IngestorError;
+    use relayer_core::gmp_api::gmp_types::{
         Amount, CannotExecuteMessageReason, CommonEventFields, CommonTaskFields,
         ConstructProofTask, ConstructProofTaskFields, Event, EventMetadata, GatewayV2Message,
         ReactToExpiredSigningSessionTask, ReactToExpiredSigningSessionTaskFields,
         ReactToWasmEventTask, ReactToWasmEventTaskFields, RetryTask, VerifyTask, VerifyTaskFields,
         WasmEvent,
     };
-    use relayer_base::ingestor::IngestorTrait;
+    use relayer_core::ingestor::IngestorTrait;
 
     #[tokio::test]
     async fn test_handle_retriable_task_unimplemented() {

@@ -7,9 +7,9 @@ Reads from the TON blockchain and adds transactions to a queue.
 use super::client::RestClient;
 use crate::ton_trace::{AtomicUpsert, TONTrace};
 use crate::types::Trace;
-use relayer_base::database::Database;
-use relayer_base::error::SubscriberError;
-use relayer_base::subscriber::{ChainTransaction, TransactionPoller};
+use relayer_core::database::Database;
+use relayer_core::error::SubscriberError;
+use relayer_core::subscriber::{ChainTransaction, TransactionPoller};
 use tonlib_core::TonAddress;
 use tracing::{debug, info, warn};
 
@@ -67,8 +67,11 @@ impl<DB: Database, TM: AtomicUpsert, CL: RestClient> TransactionPoller
     type Transaction = Trace;
     type Account = TonAddress;
 
-    fn make_queue_item(&mut self, tx: Self::Transaction) -> ChainTransaction {
-        serde_json::to_string(&tx).unwrap()
+    fn make_queue_item(
+        &mut self,
+        tx: Self::Transaction,
+    ) -> Result<ChainTransaction, anyhow::Error> {
+        Ok(serde_json::to_string(&tx)?)
     }
 
     fn transaction_id(&self, tx: &Self::Transaction) -> Option<String> {
@@ -141,7 +144,7 @@ mod tests {
     use crate::test_utils::fixtures::fixture_traces;
     use crate::ton_trace::MockAtomicUpsert;
     use mockall::predicate::eq;
-    use relayer_base::database::MockDatabase;
+    use relayer_core::database::MockDatabase;
 
     #[tokio::test]
     async fn test_subscriber_no_init_height() {

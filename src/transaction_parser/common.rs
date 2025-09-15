@@ -4,7 +4,7 @@ use crate::types::Transaction;
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
 use num_bigint::BigUint;
-use relayer_base::price_view::PriceViewTrait;
+use relayer_core::price_view::PriceViewTrait;
 use rust_decimal::Decimal;
 use std::str::FromStr;
 

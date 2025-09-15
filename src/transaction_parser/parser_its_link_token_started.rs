@@ -5,7 +5,7 @@ use crate::transaction_parser::common::is_log_emitted;
 use crate::transaction_parser::message_matching_key::MessageMatchingKey;
 use crate::transaction_parser::parser::Parser;
 use async_trait::async_trait;
-use relayer_base::gmp_api::gmp_types::{CommonEventFields, Event, EventMetadata};
+use relayer_core::gmp_api::gmp_types::{CommonEventFields, Event, EventMetadata};
 use crate::types::Transaction;
 use tonlib_core::TonAddress;
 
@@ -123,7 +123,7 @@ mod tests {
     use super::*;
     use crate::test_utils::fixtures::fixture_traces;
     use crate::transaction_parser::parser_its_link_token_started::ParserITSLinkTokenStarted;
-    use relayer_base::gmp_api::gmp_types::TokenManagerType;
+    use relayer_core::gmp_api::gmp_types::TokenManagerType;
 
     #[tokio::test]
     async fn test_parser() {

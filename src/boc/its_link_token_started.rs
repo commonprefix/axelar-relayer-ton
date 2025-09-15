@@ -26,7 +26,7 @@ use crate::error::BocError;
 use crate::error::BocError::{BocParsingError, InvalidOpCode};
 use crate::ton_constants::OP_LINK_TOKEN_STARTED_LOG;
 use num_bigint::BigUint;
-use relayer_base::gmp_api::gmp_types::TokenManagerType;
+use relayer_core::gmp_api::gmp_types::TokenManagerType;
 use std::str::FromStr;
 use tonlib_core::cell::Cell;
 use tonlib_core::tlb_types::tlb::TLB;
@@ -109,7 +109,7 @@ impl LogITSLinkTokenStartedMessage {
 mod tests {
     use crate::boc::its_link_token_started::LogITSLinkTokenStartedMessage;
     use num_bigint::BigUint;
-    use relayer_base::gmp_api::gmp_types::TokenManagerType;
+    use relayer_core::gmp_api::gmp_types::TokenManagerType;
     use std::str::FromStr;
     use tonlib_core::TonAddress;
 

@@ -1,7 +1,7 @@
 #[cfg(test)]
 pub(crate) mod fixtures {
+    use crate::types::{Trace, TracesResponse, TracesResponseRest};
     use std::fs;
-    use ton_types::ton_types::{Trace, TracesResponse, TracesResponseRest};
 
     pub fn fixture_traces() -> Vec<Trace> {
         let file_path = "tests/data/v3_traces.json";

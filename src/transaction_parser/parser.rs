@@ -16,6 +16,7 @@ use crate::transaction_parser::parser_native_gas_added::ParserNativeGasAdded;
 use crate::transaction_parser::parser_native_gas_paid::ParserNativeGasPaid;
 use crate::transaction_parser::parser_native_gas_refunded::ParserNativeGasRefunded;
 use crate::transaction_parser::parser_signers_rotated::ParserSignersRotated;
+use crate::types::Trace;
 use async_trait::async_trait;
 use num_bigint::BigUint;
 use opentelemetry::trace::{Span, Tracer};
@@ -25,7 +26,6 @@ use relayer_base::price_view::PriceViewTrait;
 use relayer_base::utils::ThreadSafe;
 use std::collections::HashMap;
 use std::str::FromStr;
-use ton_types::ton_types::Trace;
 use tonlib_core::TonAddress;
 use tracing::{info, warn};
 

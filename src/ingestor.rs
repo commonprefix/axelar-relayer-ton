@@ -1,5 +1,6 @@
 use crate::models::ton_trace::{EventSummary, UpdateEvents};
 use crate::parser::TraceParserTrait;
+use crate::types::Trace;
 use async_trait::async_trait;
 use opentelemetry::global::ObjectSafeSpan;
 use opentelemetry::trace::Tracer;
@@ -53,19 +54,14 @@ where
         let mut span =
             tracer.start_with_context("ton_ingestor.consume_transaction", &Context::current());
 
-        let ChainTransaction::TON(trace) = trace else {
-            return Err(IngestorError::UnexpectedChainTransactionType(format!(
-                "{:?}",
-                trace
-            )));
-        };
+        let trace: Trace = serde_json::from_str(&trace).unwrap();
 
         let trace_id = trace.trace_id.clone();
         span.set_attribute(KeyValue::new("chain_trace_id", trace_id.clone()));
 
         let events = self
             .trace_parser
-            .parse_trace(*trace)
+            .parse_trace(trace)
             .await
             .map_err(|e| IngestorError::GenericError(e.to_string()))?;
 
@@ -133,6 +129,7 @@ mod tests {
     use crate::ingestor::TONIngestor;
     use crate::models::ton_trace::MockUpdateEvents;
     use crate::parser::MockTraceParserTrait;
+    use crate::types::Trace;
     use relayer_base::error::IngestorError;
     use relayer_base::gmp_api::gmp_types::{
         Amount, CannotExecuteMessageReason, CommonEventFields, CommonTaskFields,
@@ -142,8 +139,6 @@ mod tests {
         WasmEvent,
     };
     use relayer_base::ingestor::IngestorTrait;
-    use relayer_base::subscriber::ChainTransaction;
-    use ton_types::ton_types::Trace;
 
     #[tokio::test]
     async fn test_handle_retriable_task_unimplemented() {
@@ -349,7 +344,7 @@ mod tests {
 
         // Call handle_transaction
         let result = ingestor
-            .handle_transaction(ChainTransaction::TON(Box::new(trace)))
+            .handle_transaction(serde_json::to_string(&trace).unwrap())
             .await;
 
         // Verify the result

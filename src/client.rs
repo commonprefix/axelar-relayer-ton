@@ -20,6 +20,9 @@ and it is less flexible and more time consuming to get it running than writing o
 
 */
 
+pub(crate) use crate::types::{
+    AccountState, AccountStatesResponse, Trace, TracesResponse, TracesResponseRest,
+};
 use async_trait::async_trait;
 use relayer_base::error::ClientError;
 use relayer_base::error::ClientError::{BadRequest, BadResponse, ConnectionFailed};
@@ -28,9 +31,6 @@ use reqwest_retry::{policies::ExponentialBackoff, RetryTransientMiddleware};
 use serde::Deserialize;
 use serde_json::json;
 use std::time::Duration;
-pub(crate) use ton_types::ton_types::{
-    AccountState, AccountStatesResponse, Trace, TracesResponse, TracesResponseRest,
-};
 use tonlib_core::TonAddress;
 use tracing::{error, info};
 

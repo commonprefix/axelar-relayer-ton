@@ -20,6 +20,7 @@ pub use models::ton_wallet_query_id;
 pub mod boc;
 pub mod gas_calculator;
 pub mod gas_estimator;
+pub mod types;
 pub(crate) use boc::relayer_execute_message;
 pub use transaction_parser::parser;
 

@@ -865,7 +865,7 @@ mod tests {
         let mut gas_estimator = MockGasEstimator::new();
         gas_estimator
             .expect_highload_wallet_send()
-            .returning(|_| Box::pin(async { 1024u64 }));
+            .returning(|_| 1024u64);
 
         let broadcaster = TONBroadcaster {
             wallet_manager: Arc::new(wallet_manager),

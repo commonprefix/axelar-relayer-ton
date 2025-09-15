@@ -5,9 +5,9 @@ use crate::ton_constants::{
 };
 use crate::transaction_parser::message_matching_key::MessageMatchingKey;
 use crate::transaction_parser::parser::Parser;
+use crate::types::Trace;
 use async_trait::async_trait;
 use relayer_base::gmp_api::gmp_types::{CannotExecuteMessageReason, CommonEventFields, Event};
-use ton_types::ton_types::Trace;
 use tonlib_core::TonAddress;
 
 pub struct ParserExecuteInsufficientGas {

@@ -6,7 +6,7 @@ use crate::transaction_parser::message_matching_key::MessageMatchingKey;
 use crate::transaction_parser::parser::Parser;
 use async_trait::async_trait;
 use relayer_base::gmp_api::gmp_types::{CommonEventFields, Event, EventMetadata};
-use ton_types::ton_types::Transaction;
+use crate::types::Transaction;
 use tonlib_core::TonAddress;
 
 pub struct ParserITSTokenMetadataRegistered {

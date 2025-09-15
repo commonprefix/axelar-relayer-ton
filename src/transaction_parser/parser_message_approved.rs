@@ -4,11 +4,11 @@ use crate::ton_constants::OP_MESSAGE_APPROVED;
 use crate::transaction_parser::common::is_log_emmitted_in_opcode;
 use crate::transaction_parser::message_matching_key::MessageMatchingKey;
 use crate::transaction_parser::parser::Parser;
+use crate::types::Transaction;
 use async_trait::async_trait;
 use relayer_base::gmp_api::gmp_types::{
     Amount, CommonEventFields, Event, EventMetadata, GatewayV2Message, MessageApprovedEventMetadata,
 };
-use ton_types::ton_types::Transaction;
 use tonlib_core::TonAddress;
 
 pub struct ParserMessageApproved {

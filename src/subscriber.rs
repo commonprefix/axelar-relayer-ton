@@ -6,10 +6,10 @@ Reads from the TON blockchain and adds transactions to a queue.
 
 use super::client::RestClient;
 use crate::ton_trace::{AtomicUpsert, TONTrace};
+use crate::types::Trace;
 use relayer_base::database::Database;
 use relayer_base::error::SubscriberError;
 use relayer_base::subscriber::{ChainTransaction, TransactionPoller};
-use ton_types::ton_types::Trace;
 use tonlib_core::TonAddress;
 use tracing::{debug, info, warn};
 
@@ -68,7 +68,7 @@ impl<DB: Database, TM: AtomicUpsert, CL: RestClient> TransactionPoller
     type Account = TonAddress;
 
     fn make_queue_item(&mut self, tx: Self::Transaction) -> ChainTransaction {
-        ChainTransaction::TON(Box::new(tx))
+        serde_json::to_string(&tx).unwrap()
     }
 
     fn transaction_id(&self, tx: &Self::Transaction) -> Option<String> {

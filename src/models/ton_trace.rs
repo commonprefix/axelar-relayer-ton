@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::types::Json;
 use sqlx::PgPool;
 use std::future::Future;
-use ton_types::ton_types::{Trace, Transaction};
+use crate::types::{Trace, Transaction};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct EventSummary {

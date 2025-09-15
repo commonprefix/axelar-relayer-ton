@@ -1,12 +1,12 @@
 use crate::error::TONRpcError::DataError;
 use crate::error::{GasError, TONRpcError, TransactionParsingError};
+use crate::types::Transaction;
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
 use num_bigint::BigUint;
 use relayer_base::price_view::PriceViewTrait;
 use rust_decimal::Decimal;
 use std::str::FromStr;
-use ton_types::ton_types::Transaction;
 
 pub fn is_log_emmitted_in_opcode(
     tx: &Transaction,

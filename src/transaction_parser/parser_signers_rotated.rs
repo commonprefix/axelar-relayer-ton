@@ -8,7 +8,7 @@ use async_trait::async_trait;
 use relayer_base::gmp_api::gmp_types::{
     CommonEventFields, Event, EventMetadata, SignersRotatedEventMetadata,
 };
-use ton_types::ton_types::Transaction;
+use crate::types::Transaction;
 use tonlib_core::TonAddress;
 
 pub struct ParserSignersRotated {

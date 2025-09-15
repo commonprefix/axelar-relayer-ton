@@ -1,8 +1,8 @@
 use crate::error::GasError;
+use crate::types::{Transaction, TransactionMessage};
 use std::collections::HashMap;
 use std::ops::AddAssign;
 use std::str::FromStr;
-use ton_types::ton_types::{Transaction, TransactionMessage};
 use tonlib_core::TonAddress;
 
 #[derive(Clone)]

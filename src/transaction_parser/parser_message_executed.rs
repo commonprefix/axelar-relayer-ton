@@ -3,7 +3,7 @@ use relayer_base::gmp_api::gmp_types::{
     Amount, CommonEventFields, Event, EventMetadata, MessageExecutedEventMetadata,
     MessageExecutionStatus,
 };
-use ton_types::ton_types::Transaction;
+use crate::types::Transaction;
 use tonlib_core::TonAddress;
 
 use crate::boc::nullified_message::NullifiedSuccessfullyMessage;

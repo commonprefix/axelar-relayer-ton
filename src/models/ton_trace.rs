@@ -1,9 +1,9 @@
+use crate::types::{Trace, Transaction};
 use relayer_core::models::Model;
 use serde::{Deserialize, Serialize};
 use sqlx::types::Json;
 use sqlx::PgPool;
 use std::future::Future;
-use crate::types::{Trace, Transaction};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct EventSummary {
@@ -197,8 +197,8 @@ mod tests {
     async fn test_crud() {
         let init_sql = format!(
             "{}\n{}",
-            include_str!("../../../migrations/0011_ton_traces.sql"),
-            include_str!("../../../migrations/0013_ton_traces_events.sql")
+            include_str!("../../migrations/0006_ton_traces.sql"),
+            include_str!("../../migrations/0008_ton_traces_events.sql")
         );
         let container = postgres::Postgres::default()
             .with_init_sql(init_sql.into_bytes())
@@ -280,8 +280,8 @@ mod tests {
     async fn test_update_events() {
         let init_sql = format!(
             "{}\n{}",
-            include_str!("../../../migrations/0011_ton_traces.sql"),
-            include_str!("../../../migrations/0013_ton_traces_events.sql")
+            include_str!("../../migrations/0006_ton_traces.sql"),
+            include_str!("../../migrations/0008_ton_traces_events.sql")
         );
         let container = postgres::Postgres::default()
             .with_init_sql(init_sql.into_bytes())

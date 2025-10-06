@@ -116,7 +116,7 @@ mod tests {
             client,
             Some(Duration::from_millis(100)),
             Some(Duration::from_millis(100)),
-            Some(0),
+            Some(5),
         )
         .await
         .unwrap();
